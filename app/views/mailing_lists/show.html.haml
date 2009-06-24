@@ -1,0 +1,13 @@
+%h1=@mailing_list.email_address
+
+%h2="Exceptions"
+%ul
+  -@exceptions.each do |e|
+    %li="#{e.name} (#{e.emails.count})"
+
+%h2="Errors"
+%ul
+  -@errors.each do |e|
+    %li="#{e.name} (#{e.emails.count})"
+    
+=link_to "Back To Mailing Lists"

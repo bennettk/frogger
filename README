@@ -1,0 +1,41 @@
+FROGGER
+HopToad killa
+
+Description
+-----------
+I cobbled this together the other week to play around with checking mail with ruby (/rails) and that got me thinking about a hoptoad-like app to deal with all the errors that come in from all of our projects.  (I've never used hoptoad before, but that's what I presume it does.)
+
+This is firmly in the 'proof of concept' stage of things, not even remotely in the pre-pre-alpha stage yet.  Here's what it does:
+
+The application has a number of projects, each of which can be associated with multiple mailing lists.  Each mailing list parses all the emails that come through to that e-mail address (i.e. "blah-errors@host.com") and keep track of the unique Exceptions and Errors that have come in on that list.
+
+An exception would be: "NoMethodError in site#show_page"
+An error would be: "undefined method `draft' for nil:NilClass"
+
+Every e-mail that this app ingests is associated with an error and an exception, so keeping track of how many of each error/exception has come in is straightforward.
+
+HOW TO GET STARTED:
+-------------------
+1) copy config/email-sample.yml to config/email.yml and fill in the appropriate information.
+2) migrate
+>> rake db:migrate
+3) script/console (right now this just uses a sqlite db)
+4) create a Project:
+>> Project.create!(:name => "project_name")
+5) create a MailingList for that project 
+>> MailingList.create!(:email_address => "", :project_id => PROJECT ID)
+6) check the e-mail for that mailing list:
+>> MailingList.first.get_error_messages
+
+...if all went well, you should see something like:
+=> #<struct Net::IMAP::TaggedResponse tag="RUBY0019", name="OK", data=#<struct Net::IMAP::ResponseText code=nil, text="LOGOUT completed">, raw_data="RUBY0019 OK LOGOUT completed\r\n">
+
+Right now this will only check messages in your inbox (hence mailbox: 'INBOX' in config.yml) so you have to have some errors left in your inbox for this to work.  I'm sure with a little more monkeying around with the Net::IMAP docs and the console, I/someone will be able to figure out how to check another mailbox.
+
+You can then fire up the server (script/server) and go to http://localhost:3000/mailing_lists to see the VERY basic interface that was cobbled together.  Cobbling is the key word here, folks.  Anyhow, enjoy, and think about if this is something worth pursuing.
+
+NEXT STEPS:
+-----------
+* present the Errors and Exceptions in a meaningful format, sorted by any recent activity and if any new (heretofore unseen) errors and / or exceptions have been generated
+* providing a means to comment on each error and exception and / or rank them as severe, common, etc
+* start speccing (!)

@@ -1,0 +1,4 @@
+host: MAIL.HOST.COM
+email: 'EMAILADDRESS@HOST.com'
+password: 'PASSWORD GOES HERE'
+mailbox: 'INBOX'

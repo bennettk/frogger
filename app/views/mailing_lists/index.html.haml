@@ -1,0 +1,4 @@
+#h1 Mailing Lists
+%ul
+  -@mailing_lists.each do |m|
+    %li=link_to m.email_address, "/mailing_lists/show/#{m.id}"
